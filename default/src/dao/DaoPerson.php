@@ -1,7 +1,7 @@
 <?php
 
 namespace simplon\dao;
-use simplon\entities\Person;
+use simplon\entities\User;
 use simplon\dao\Connect;
 /**
  * Un Dao, pour Data Access Object, est une classe dont le but est de faire
@@ -11,7 +11,7 @@ use simplon\dao\Connect;
  * (comme ça, si on change de SGBD, ou de table, ou de database, on aura
  * juste le DAO à modifier et le reste de notre appli restera inchangé)
  */
-class DaoPerson {
+class DaoUser {
     
     
     /**
