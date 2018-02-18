@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>{{user.username}} blog</title>
+</head>
+
+<body>
+    <a href="{{path_for('index')}}">back to index</a>
+    <h1>Hello {{user.username}} </h1>
+
+    <form action="{{path_for('userblog',{ 'id': user.id })}}" method="POST" >
+        <div class="form-group row">
+            <label for="title" class="col-4 col-form-label">Title</label>
+            <div class="col-8">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-institution"></i>
+                    </div>
+                    <input id="title" name="title" placeholder="title of your article" type="text" required="required" class="form-control here">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="content" class="col-4 col-form-label">Content</label>
+            <div class="col-8">
+                <textarea id="content" name="content"  placeholder="text of your article..." cols="40" rows="10" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="offset-4 col-8">
+                <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <section>
+        {% for article in articles %}
+        <div class="media">
+                <img class="align-self-start mr-3" src="assets/images/téléchargement.svg" alt="Generic placeholder image">
+                <div class="media-body">
+                  <h5 class="mt-0">{{article.title}}</h5>
+                  <p>{{article.content}}</p>
+                  <p></p>
+                </div>
+              </div>
+        {% endfor %}
+    </section>
+
+</body>
+
+</html>

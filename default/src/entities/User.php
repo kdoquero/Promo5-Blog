@@ -9,7 +9,7 @@ class User {
     private $email;
     private $password;
 
-    public function __construct( string $username, string $email, string $password){
+    public function __construct( string $username, string $email, string $password, int $id = NULL){
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
@@ -81,6 +81,18 @@ class User {
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
 
         return $this;
     }

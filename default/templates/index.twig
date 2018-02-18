@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>index- Blog</title>
+        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
+        <style>
+            body {
+                margin: 50px 0 0 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #aaa;
+                font-size: 18px;
+            }
 
-<head>
-    <meta charset="utf-8" />
-    <title>My PDO Project</title>
-    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-</head>
+            h1 {
+                color: #719e40;
+                letter-spacing: -3px;
+                font-family: 'Lato', sans-serif;
+                font-size: 100px;
+                font-weight: 200;
+                margin-bottom: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Blog</h1>
+        <p>Login:</p>
+        <form style="border :1px solid black" action="{{path_for('index',{ 'id': user.id })}}" method="POST">
+            <input type="email" name="email" id="" placeholder="email">
+            <input type="password" name="password" id="">
+            <input type="submit" value="submit">
+        </form>
+        <a href="{{path_for('register')}}"><input  type="button" value="register" ></a>
+        <form action="{{path_for('index')}}" method="post">
 
-<body>
-    <h1>My Pdo Project</h1>
-
-
-    <a href="{{ path_for('addperson') }}">Add Person</a>
-    <table class="table">
-        <thead class="thead-default">
+        </form>
+        <table class=" table table-dark">
             <tr>
-                <th> ID </th>
-                <th> Name </th>
-                <th> Birth Date</th>
-                <th> Gender </th>
-                <th>Update</th>
-                <th>Delete</th>
-                
+                <td>ID</td>
+                <td>Username</td>
+                <td>Email</td>
             </tr>
-        </thead>
-        <tbody>
-            {% for person in persons %}
+            {% for user in users %}
             <tr>
-                <th scope="row">{{person.id}}</th>
-                <td>{{person.name}}</td>
-                <td>{{person.birthdate | date("d/m/Y")}}</td>
-                <td>{{person.gender}}</td>
-                <td>
-                    <a href="{{ path_for('updateperson', {'id': person.id}) }}">
-                        <i class="far fa-edit"></i>
-                    </a>
-                </td>
-                <td>
-                    <a href="{{ path_for('deleteperson', {'id': person.id}) }}">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </td>
-            </tr>
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
 
+            </tr>     
             {% endfor %}
-        </tbody>
-    </table>
-    
-
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
-        crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-        crossorigin="anonymous"></script>
-</body>
-
+        </table>
+        {% if (form['isLogged']) %}
+          <h2>Hello {{ form['email']|escape }} !</h2>
+        {% else %}
+          <p>User not found</p>
+        {% endif %}
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    </body>
 </html>
