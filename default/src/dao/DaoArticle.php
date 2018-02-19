@@ -40,11 +40,12 @@ class DaoArticle {
         return $tab;
     }
 
-    public function getUserArticle():array {
+    public function getUserArticle($id):array {
         $tab = [];
         
         try {
-            $query = Connect::getInstance()->prepare('SELECT * FROM article INNER JOIN user ON article.id = user.id');
+            $query = Connect::getInstance()->prepare('SELECT * FROM article INNER JOIN user ON user.id = article.user_id WHERE user.id = :id');
+            $query->bindValue(':id', $id, \PDO::PARAM_INT);
             $query->execute();
             while($row = $query->fetch()) {
                 $art = new Article($row['title'],$row['user_id'], 

@@ -48,7 +48,7 @@ $app->post('/', function (Request $request, Response $response, array $args) {
 $app->get('/userblog/{id}', function (Request $request, Response $response, array $args) {
     $daoUser = new DaoUser();
     $daoArticle = new DaoArticle();
-    $articles = $daoArticle->getUserArticle();
+    $articles = $daoArticle->getUserArticle($args['id']);
 
     $user = $daoUser->getById($args['id']);
     return $this->view->render($response, 'userblog.twig',[
@@ -63,6 +63,7 @@ $app->post('/userblog/{id}', function (Request $request, Response $response, arr
     $articles = $daoArticle->getUserArticle();
     
     $user = $daoUser->getById($args['id']);
+    $articles = $daoArticle->getUserArticle($user->getId());
     $newArticle = new Article($form['title'],$user->getId(), $form['content'],new \DateTime('now'));
     
     $daoArticle->add($newArticle);
