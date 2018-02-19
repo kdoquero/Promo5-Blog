@@ -28,7 +28,7 @@ $app->post('/', function (Request $request, Response $response, array $args) {
     $user = $dao->getByEmail($form['email']);
 
     
-    $form['isLogged'] = ($form['email'] === $user->getEmail() && $form['password'] === $user->getPassword());
+    $form['isLogged'] = (!empty($user) && $form['email'] === $user->getEmail() && $form['password'] === $user->getPassword());
     if ($form['isLogged']) {
         $redirectUrl = $this->router->pathFor('userblog',[
             'id' => $user->getId()
@@ -56,11 +56,22 @@ $app->get('/userblog/{id}', function (Request $request, Response $response, arra
     ]);
 })->setName('userblog');
 
+$app->get('/viewblog/{id}', function (Request $request, Response $response, array $args) {
+    $daoUser = new DaoUser();
+    $daoArticle = new DaoArticle();
+    $articles = $daoArticle->getUserArticle($args['id']);
+
+    $user = $daoUser->getById($args['id']);
+    return $this->view->render($response, 'viewblog.twig',[
+        'articles' => $articles , "user" => $user
+    ]);
+})->setName('viewblog');
+
 $app->post('/userblog/{id}', function (Request $request, Response $response, array $args) {
     $form = $request->getParsedBody();
     $daoUser = new DaoUser();
     $daoArticle = new DaoArticle();
-    $articles = $daoArticle->getUserArticle();
+    $articles = $daoArticle->getUserArticle($args['id']);
     
     $user = $daoUser->getById($args['id']);
     $articles = $daoArticle->getUserArticle($user->getId());

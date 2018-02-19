@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        header {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+    <title>{{user.username}} blog</title>
+</head>
+
+<body>
+    <a href="{{path_for('index')}}">back to index</a>
+    <header>
+        
+        <h1>Articles of {{user.username}} </h1>
+    </header>
+    <section class="row">
+        {% for article in articles %}
+        <div class="col-sm-6">
+            <div class="card-group">
+                <div class="card border-dark mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Article</div>
+                    <div class="card-body text-dark">
+                        <h5 class="card-title">{{article.title}}</h5>
+                        <p class="card-text">{{article.content}}</p>
+                        <div class="card-footer">
+                            <small class="text-muted">{{article.date | date('j-m-Y H:i:s')}}</small>
+                        </div>
+                    </div>
+                </div>      
+            </div>
+        </div>
+        
+        {% endfor %}
+    </section>
+
+</body>
+
+</html>

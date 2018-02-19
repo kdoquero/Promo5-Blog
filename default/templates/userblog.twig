@@ -8,12 +8,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        header {
+            display: flex;
+        }
+    </style>
     <title>{{user.username}} blog</title>
 </head>
 
 <body>
-    <a href="{{path_for('index')}}">back to index</a>
-    <h1>Hello {{user.username}} </h1>
+    <header>
+        <a href="{{path_for('index')}}">back to index</a>
+        <h1>Hello {{user.username}} </h1>
+    </header>
+   
 
     <form action="{{path_for('userblog',{ 'id': user.id })}}" method="POST" >
         <div class="form-group row">
@@ -40,16 +48,20 @@
         </div>
     </form>
 
-    <section>
+    <section class="row">
         {% for article in articles %}
-        <div class="media">
-                <img class="align-self-start mr-3" src="assets/images/téléchargement.svg" alt="Generic placeholder image">
-                <div class="media-body">
-                  <h5 class="mt-0">{{article.title}}</h5>
-                  <p>{{article.content}}</p>
-                  <p></p>
+        <div class="col-sm-6">
+            <div>
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                    <h5 class="card-title">{{article.title}}</h5>
+                    <p class="card-text">{{article.content}}</p>
+                    <p>{{article.date | date('j-m-Y H:i:s')}}</p>
+                    </div>
                 </div>
-              </div>
+            </div>
+        </div>
         {% endfor %}
     </section>
 
