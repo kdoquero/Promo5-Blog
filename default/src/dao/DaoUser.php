@@ -146,6 +146,7 @@ class DaoUser {
     
         return null;
     }
+
     public function add(User $usr) {
         
         try {
@@ -164,7 +165,7 @@ class DaoUser {
              * de DateTime pour la convertir au format textuel souhaité.
              */
             $query->bindValue(':email',$usr->getEmail(),\PDO::PARAM_STR);
-            $query->bindValue(':password',$usr->getPassword(),\PDO::PARAM_INT);
+            $query->bindValue(':password',$usr->getPassword(),\PDO::PARAM_STR);
 
             $query->execute();
             /**

@@ -5,13 +5,14 @@ namespace simplon\entities;
 class Article {
 
     private $id;
-    
+    private $userId;
     private $title;
     private $content;
     private $date;
 
-    public function __construct ( string $title, string $content, \Datetime $date, int $id = NULL){
+    public function __construct ( string $title, int $userId, string $content, \Datetime $date, int $id = NULL){
         $this->id = $id;
+        $this->personId =$userId;
         $this->title = $title;
         $this->content = $content;
         $this->date = $date;
@@ -101,6 +102,23 @@ class Article {
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of personId
+     */ 
+    
+
+    /**
+     * Set the value of personId
+     *
+     * @return  self
+     */ 
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
 
         return $this;
     }

@@ -39,6 +39,27 @@ class DaoArticle {
         //On return le tableau
         return $tab;
     }
+
+    public function getUserArticle():array {
+        $tab = [];
+        
+        try {
+            $query = Connect::getInstance()->prepare('SELECT * FROM article INNER JOIN user ON article.id = user.id');
+            $query->execute();
+            while($row = $query->fetch()) {
+                $art = new Article($row['title'],$row['user_id'], 
+                            $row['content'], 
+                            new \DateTime($row['date']),
+                            $row['id']);
+                //On ajoute la Article créée à notre tableau
+                $tab[] = $art;
+            }
+        }catch(\PDOException $e) {
+            echo $e;
+        }
+        //On return le tableau
+        return $tab;
+    }
     /**
      * Méthode permettant de récupérer une Article en se basant sur
      * son Id
@@ -75,10 +96,10 @@ class DaoArticle {
         
         try {
             //On prépare notre requête, avec les divers placeholders
-            $query = Connect::getInstance()->prepare('INSERT INTO article (title,content,date) VALUES (:title, :content, :date)');
+            $query = Connect::getInstance()->prepare('INSERT INTO article (user_id,title,content,date) VALUES (:user_id, :title, :content, :date)');
            
             $query->bindValue(':title',$art->getTitle(),\PDO::PARAM_STR);
-           
+            $query->bindValue(':user_id',$art->getUserId(),\PDO::PARAM_INT);
             $query->bindValue(':content',$art->getContent(),\PDO::PARAM_STR);
             $query->bindValue(':date',$art->getDate()->format('Y-m-j'),\PDO::PARAM_STR);
 

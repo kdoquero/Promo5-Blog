@@ -48,7 +48,7 @@ $app->post('/', function (Request $request, Response $response, array $args) {
 $app->get('/userblog/{id}', function (Request $request, Response $response, array $args) {
     $daoUser = new DaoUser();
     $daoArticle = new DaoArticle();
-    $articles = $daoArticle->getAll();
+    $articles = $daoArticle->getUserArticle();
 
     $user = $daoUser->getById($args['id']);
     return $this->view->render($response, 'userblog.twig',[
@@ -60,16 +60,14 @@ $app->post('/userblog/{id}', function (Request $request, Response $response, arr
     $form = $request->getParsedBody();
     $daoUser = new DaoUser();
     $daoArticle = new DaoArticle();
+    $articles = $daoArticle->getUserArticle();
     
     $user = $daoUser->getById($args['id']);
-    $newArticle = new Article($form['title'], $form['content'],new \DateTime('now'));
-    var_dump($form['title']);
-     //On instancie le DAO
-
-     //On utilise la méthode add du DAO en lui donnant la Person qu'on vient de créer
+    $newArticle = new Article($form['title'],$user->getId(), $form['content'],new \DateTime('now'));
+    
     $daoArticle->add($newArticle);
     $redirectUrl = $this->router->pathFor('userblog',[
-        'id' => $user->getId()
+        'id' => $user->getId(), 'articles' => $articles
         ]);
     return $response->withRedirect($redirectUrl);
     
