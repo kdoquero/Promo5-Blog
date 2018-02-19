@@ -12,7 +12,7 @@ class Article {
 
     public function __construct ( string $title, int $userId, string $content, \Datetime $date, int $id = NULL){
         $this->id = $id;
-        $this->personId =$userId;
+        $this->userId = $userId;
         $this->title = $title;
         $this->content = $content;
         $this->date = $date;

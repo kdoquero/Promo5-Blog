@@ -67,7 +67,7 @@ $app->post('/userblog/{id}', function (Request $request, Response $response, arr
     
     $daoArticle->add($newArticle);
     $redirectUrl = $this->router->pathFor('userblog',[
-        'id' => $user->getId(), 'articles' => $articles
+        'id' => $user->getId()
         ]);
     return $response->withRedirect($redirectUrl);
     

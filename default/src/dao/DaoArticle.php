@@ -101,7 +101,7 @@ class DaoArticle {
             $query->bindValue(':title',$art->getTitle(),\PDO::PARAM_STR);
             $query->bindValue(':user_id',$art->getUserId(),\PDO::PARAM_INT);
             $query->bindValue(':content',$art->getContent(),\PDO::PARAM_STR);
-            $query->bindValue(':date',$art->getDate()->format('Y-m-j'),\PDO::PARAM_STR);
+            $query->bindValue(':date',$art->getDate()->format('Y-m-j H:i:s'),\PDO::PARAM_STR);
 
             $query->execute();
             /**
