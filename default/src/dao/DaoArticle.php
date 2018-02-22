@@ -61,6 +61,29 @@ class DaoArticle {
         //On return le tableau
         return $tab;
     }
+
+    public function getOneArticle($id) {
+        
+        
+        try {
+            $query = Connect::getInstance()->prepare('SELECT * FROM article  WHERE id = :id');
+            $query->bindValue(':id', $id, \PDO::PARAM_INT);
+            $query->execute();
+            if($row = $query->fetch()) {
+                //On crée une instance de Article
+                $art = new Article($row['title'],$row['user_id'],
+                            $row['content'], 
+                            new \DateTime($row['date']),
+                            $row['id']);
+                //On return cette Article
+                return $art;
+            }
+        }catch(\PDOException $e) {
+            echo $e;
+        }
+        //On return le tableau
+        return $tab;
+    }
     /**
      * Méthode permettant de récupérer une Article en se basant sur
      * son Id

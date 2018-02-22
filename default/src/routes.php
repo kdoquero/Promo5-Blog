@@ -26,18 +26,17 @@ $app->post('/', function (Request $request, Response $response, array $args) {
     $dao = new DaoUser();
     $form = $request->getParsedBody();
     $user = $dao->getByEmail($form['email']);
-
-    
+   
     $form['isLogged'] = (!empty($user) && $form['email'] === $user->getEmail() && $form['password'] === $user->getPassword());
     if ($form['isLogged']) {
         $redirectUrl = $this->router->pathFor('userblog',[
-            'id' => $user->getId()
+            'id' => $user->getId(), 'user' =>$_SESSION['user'], 'name' => $user->getUsername()
             ]);
     //On redirige l'utilisateur sur la page d'accueil
         return $response->withRedirect($redirectUrl);
     } else {
         return $this->view->render($response, 'index.twig', [
-            'user' => $user
+           
         ]);
     }
 
@@ -45,14 +44,17 @@ $app->post('/', function (Request $request, Response $response, array $args) {
     
 })->setName('index');
 
-$app->get('/userblog/{id}', function (Request $request, Response $response, array $args) {
+$app->get('/userblog/{id}/{name}', function (Request $request, Response $response, array $args) {
     $daoUser = new DaoUser();
     $daoArticle = new DaoArticle();
     $articles = $daoArticle->getUserArticle($args['id']);
 
     $user = $daoUser->getById($args['id']);
-    return $this->view->render($response, 'userblog.twig',[
-        'articles' => $articles , "user" => $user
+    $args['name'] = $user->getUsername();
+    $_SESSION['user'] = $user;
+    
+    return $this->view->render($response, 'userblog.twig',[ 'id' => $user->getId(),
+        'articles' => $articles , "user" => $user ,'name' => $user->getUsername()
     ]);
 })->setName('userblog');
 
@@ -63,11 +65,11 @@ $app->get('/viewblog/{id}', function (Request $request, Response $response, arra
 
     $user = $daoUser->getById($args['id']);
     return $this->view->render($response, 'viewblog.twig',[
-        'articles' => $articles , "user" => $user
+        'articles' => $articles , "user" => $user ,'name' => $user->getUsername()
     ]);
 })->setName('viewblog');
 
-$app->post('/userblog/{id}', function (Request $request, Response $response, array $args) {
+$app->post('/userblog/{id}/{name}', function (Request $request, Response $response, array $args) {
     $form = $request->getParsedBody();
     $daoUser = new DaoUser();
     $daoArticle = new DaoArticle();
@@ -78,8 +80,9 @@ $app->post('/userblog/{id}', function (Request $request, Response $response, arr
     $newArticle = new Article($form['title'],$user->getId(), $form['content'],new \DateTime('now'));
     
     $daoArticle->add($newArticle);
+    //$daoUser->update(new User($form['username'],$user->getEmail(),$form['password']));
     $redirectUrl = $this->router->pathFor('userblog',[
-        'id' => $user->getId()
+        'id' => $user->getId(), 'name' => $user->getUsername()
         ]);
     return $response->withRedirect($redirectUrl);
     
@@ -104,5 +107,30 @@ $app->post('/register', function (Request $request, Response $response, array $a
     //On redirige l'utilisateur sur la page d'accueil
     return $response->withRedirect($redirectUrl);
 })->setName('register');
+
+$app->get('/update/{id}/{name}', function (Request $request, Response $response, array $args) {
+    $daoUser = new DaoUser();
+    $user = $daoUser->getById($args['id']);
+
+
+    return $this->view->render($response, 'updateuser.twig', [
+        'id' => $user->getId(), 'name' => $user->getUsername()
+        ]);
+})->setName('update');
+
+$app->post('/update/{id}/{name}', function (Request $request, Response $response, array $args) {
+    $form = $request->getParsedBody();
+    $daoUser = new DaoUser();
+    $daoArticle = new DaoArticle();
+    $user = $daoUser->getById($args['id']);
+    $user->setUsername($form['username']);
+    $user->setPassword($form['password']);
+    $daoUser->update($user);
+    $redirectUrl = $this->router->pathFor('userblog',[
+        'id' => $user->getId(), 'user' =>$_SESSION['user'], 'name' => $user->getUsername()
+        ]);
+    return $response->withRedirect($redirectUrl);
+        
+})->setName('update');
 
 

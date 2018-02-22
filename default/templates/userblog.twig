@@ -11,21 +11,98 @@
     <style>
         header {
             display: flex;
+            justify-content: center;
+            align-items: center;
         }
+        .card {
+            margin: 10px;
+            width: 400px;
+        }
+        .container-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .box {
+            border: solid 1px rgb(168, 160, 160);
+            position: relative;
+            width: 500px;
+            padding: 50px;
+            margin: 10px auto;
+            background-color: #fff;
+            -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .box:before,
+        .box:after {
+            position: absolute;
+            width: 40%;
+            height: 10px;
+            content: ' ';
+            left: 12px;
+            bottom: 12px;
+            background: transparent;
+            -webkit-transform: skew(-5deg) rotate(-5deg);
+            -moz-transform: skew(-5deg) rotate(-5deg);
+            -ms-transform: skew(-5deg) rotate(-5deg);
+            -o-transform: skew(-5deg) rotate(-5deg);
+            transform: skew(-5deg) rotate(-5deg);
+            -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        .box:after {
+            left: auto;
+            right: 12px;
+            -webkit-transform: skew(5deg) rotate(5deg);
+            -moz-transform: skew(5deg) rotate(5deg);
+            -ms-transform: skew(5deg) rotate(5deg);
+            -o-transform: skew(5deg) rotate(5deg);
+            transform: skew(5deg) rotate(5deg);
+        }
+
+        .box h1 {
+            margin: 0 0 10px 0;
+            padding: 0 0 10px 0;
+            border-bottom: 1px solid #D8D8D8;
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: normal;
+        }
+
+        .box intro {
+            display: block;
+            font-style: italic;
+            color: #666;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .box content p {
+            font-size: 13px;
+            text-align: left;
+        }
+        
     </style>
     <title>{{user.username}} blog</title>
 </head>
 
 <body>
-    <header>
-        <a href="{{path_for('index')}}">back to index</a>
-        <h1>Hello {{user.username}} </h1>
+    <a href="{{path_for('index')}}">back to index</a>
+    <header> 
+        <h1 class="text-center" >Hello {{user.username}} </h1><a href="{{path_for('update',{ 'id': user.id, 'name': name })}}"><span>edit</span></a>
     </header>
+    
+    
    
 
-    <form action="{{path_for('userblog',{ 'id': user.id })}}" method="POST" >
+    <form action="{{path_for('userblog',{ 'id': user.id, 'name': name })}}" method="POST" >
         <div class="form-group row">
-            <label for="title" class="col-4 col-form-label">Title</label>
+            <label for="title" class="col-2 col-form-label text-center">Title</label>
             <div class="col-8">
                 <div class="input-group">
                     <div class="input-group-addon">
@@ -36,7 +113,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="content" class="col-4 col-form-label">Content</label>
+            <label for="content" class="col-2 col-form-label text-center ">Content</label>
             <div class="col-8">
                 <textarea id="content" name="content"  placeholder="text of your article..." cols="40" rows="10" class="form-control"></textarea>
             </div>
@@ -48,19 +125,16 @@
         </div>
     </form>
 
-    <section class="row">
+    <section class="container-row">
         {% for article in articles %}
-        <div class="col-sm-6">
-            <div>
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                    <h5 class="card-title">{{article.title}}</h5>
-                    <p class="card-text">{{article.content}}</p>
-                    <p>{{article.date | date('j-m-Y H:i:s')}}</p>
-                    </div>
-                </div>
-            </div>
+        <div class="box">
+            <h1>{{article.title}}</h1>
+            <article>
+                <content>
+                    <p>{{article.content}}</p>
+                    <p>{{article.date | date('j-m-Y H:i:s',"Europe/Paris")}}</p>
+                </content>
+            </article>
         </div>
         {% endfor %}
     </section>

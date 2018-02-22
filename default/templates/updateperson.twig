@@ -12,36 +12,12 @@
 
     <a href="{{ path_for('index') }}">Back</a>
 
-    <form action="{{ path_for('updateperson', {'id': person.id})}}" method="POST">
-        <div class="form-group row">
-            <label for="name" class="col-4 col-form-label">Name</label>
-            <div class="col-8">
-                <input id="name" name="name" placeholder="name" type="text" value="{{ person.name }}" class="form-control here">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="birthdate" class="col-4 col-form-label">Birth date</label>
-            <div class="col-8">
-                <input id="birthdate" name="birthdate"  type="date" value="{{ person.birthdate | date('Y-m-d') }}" class="form-control here">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="gender" class="col-4 col-form-label">Gender</label>
-            <div class="col-8">
-                <select id="gender" name="gender" value="{{ person.gender }}" class="custom-select">
-                    <option value="0" {% if person.gender == 0 %} selected {% endif %}>Man</option>
-                    <option value="1" {% if person.gender == 1 %} selected {% endif %}>Woman</option>
-                    <option value="2" {% if person.gender == 2 %} selected {% endif %}>Genderfluid</option>
-                    <option value="3" {% if person.gender == 3 %} selected {% endif %}>Agender</option>
-                    <option value="4" {% if person.gender == 4 %} selected {% endif %}>Other</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="offset-4 col-8">
-                <button name="submit" type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
+    <form action="{{path_for('userblog',{ 'id': user.id, 'name': name })}}" method="POST">
+        <label for="username"></label>
+        <input type="text" name="username" id="username" placeholder="new username">
+        
+        <input type="password" name="password" id="password" placeholder="new password">
+        <input type="submit" value="update">
     </form>
 
     {% if newId %}

@@ -50,7 +50,7 @@
                 Sign up/in
             </button>
             <div class="dropdown-menu">
-                <form action="{{path_for('index',{ 'id': user.id })}}" method="POST" class="px-4 py-3">
+                <form action="{{path_for('index',{ 'id': user.id, 'name': user.name })}}" method="POST" class="px-4 py-3">
                     <div class="form-group">
                         <label for="exampleDropdownFormEmail1">Email address</label>
                         <input type="email" name="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
@@ -68,8 +68,7 @@
                     <button type="submit" class="btn btn-primary">Sign in</button>
                 </form>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{path_for('register')}}">New around here? Sign up</a>
-                <a class="dropdown-item" href="#">Forgot password?</a>
+                <a class="dropdown-item" href="{{path_for('register')}}">New around here? Sign up</a>   
             </div>
         </div>
     </header>
@@ -79,13 +78,13 @@
         <tr>
             <td>Name</td>
             <td>Email</td>
+            <td>View Blog</td>
         </tr>
         {% for user in users %}
         <tr>
-            <td>
-                <a href="{{path_for('viewblog',{ 'id': user.id })}}">{{user.username}}</a>
-            </td>
+            <td>{{user.username}}</td>
             <td>{{user.email}}</td>
+            <td><a href="{{path_for('viewblog',{ 'id': user.id })}}"><i class="fas fa-sign-in-alt"></i></a></td>
         </tr>
         {% endfor %}
     </table>
@@ -96,6 +95,7 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
 </body>
 
